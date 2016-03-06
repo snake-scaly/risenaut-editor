@@ -23,6 +23,9 @@ namespace RisenautEditor
         public MainWindow()
         {
             InitializeComponent();
+            var game = new GameFile("E:\\home\\projects\\risenaut-editor\\.etc\\KLAD.FIL");
+            level_view.Level = game.Levels.ElementAt(11);
+            level_view.Blocks = game.Blocks;
         }
     }
 }
