@@ -20,12 +20,29 @@ namespace RisenautEditor
     /// </summary>
     public partial class MainWindow : Window
     {
+        private GameFile game;
+
         public MainWindow()
         {
             InitializeComponent();
-            var game = new GameFile("E:\\home\\projects\\risenaut-editor\\.etc\\KLAD.FIL");
-            level_view.Level = game.Levels.ElementAt(11);
+            game = new GameFile("E:\\home\\projects\\risenaut-editor\\.etc\\KLAD.FIL");
+
+            Blocks = game.Blocks;
+            foreach (var l in game.Levels)
+            {
+                level_list.Items.Add(l);
+            }
+
             level_view.Blocks = game.Blocks;
+
+            level_list.SelectedIndex = 0;
+        }
+
+        public IReadOnlyList<Sprite> Blocks { get; set; }
+
+        private void level_list_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            level_view.Level = (Level)e.AddedItems[0];
         }
     }
 }

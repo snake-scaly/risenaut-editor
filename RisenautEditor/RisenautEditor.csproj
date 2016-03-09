@@ -67,7 +67,6 @@
     <Compile Include="ICanvas.cs" />
     <Compile Include="Sprite.cs" />
     <Compile Include="Level.cs" />
-    <Compile Include="LevelCollection.cs" />
     <Compile Include="LevelView.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

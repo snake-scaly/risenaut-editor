@@ -9,7 +9,7 @@ namespace RisenautEditor
     /// <summary>
     /// A rectangular, upside-down sprite.
     /// </summary>
-    class Sprite
+    public class Sprite
     {
         private byte[] game_data;
         private int sprite_offset;
@@ -28,7 +28,7 @@ namespace RisenautEditor
         public int PixelWidth { get; private set; }
         public int PixelHeight { get; private set; }
 
-        public void Draw(ICanvas canvas, int x, int y)
+        internal void Draw(ICanvas canvas, int x, int y)
         {
             int offset = sprite_offset;
 

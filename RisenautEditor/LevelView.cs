@@ -13,39 +13,51 @@ namespace RisenautEditor
 {
     public class LevelView : UserControl
     {
-        private Level level;
         private ImageSource rendered_level;
-        private IReadOnlyCollection<Sprite> blocks;
 
         private const int block_width = 8;
         private const int block_height = 8;
 
-        internal Level Level
+        public static readonly DependencyProperty LevelProperty =
+            DependencyProperty.Register("Level", typeof(Level), typeof(LevelView),
+            new FrameworkPropertyMetadata(OnLevelOrBlocksPropertyChanged));
+        public static readonly DependencyProperty BlocksProperty =
+            DependencyProperty.Register("Blocks", typeof(IReadOnlyList<Sprite>), typeof(LevelView),
+            new FrameworkPropertyMetadata(OnLevelOrBlocksPropertyChanged));
+
+        public Level Level
         {
-            get { return level; }
-            set
-            {
-                level = value;
-                RenderLevel();
-                InvalidateVisual();
-            }
+            get { return (Level)GetValue(LevelProperty); }
+            set { SetValue(LevelProperty, value); }
         }
 
-        internal IReadOnlyCollection<Sprite> Blocks
+        public IReadOnlyList<Sprite> Blocks
         {
-            get { return blocks; }
-            set
-            {
-                blocks = value;
-                RenderLevel();
-                InvalidateVisual();
-            }
+            get { return (IReadOnlyList<Sprite>)GetValue(BlocksProperty); }
+            set { SetValue(BlocksProperty, value); }
+        }
+
+        public bool IsPreview { get; set; }
+
+        private static void OnLevelOrBlocksPropertyChanged(DependencyObject source, DependencyPropertyChangedEventArgs e)
+        {
+            var lv = (LevelView)source;
+            lv.Update();
+        }
+
+        private void Update()
+        {
+            RenderLevel();
+            InvalidateVisual();
         }
 
         protected override void OnRender(DrawingContext drawingContext)
         {
             base.OnRender(drawingContext);
             drawingContext.DrawRectangle(Brushes.Black, null, new Rect(0, 0, ActualWidth, ActualHeight));
+
+            if (Level == null || rendered_level == null)
+                return;
 
             const double aspect = 4.0 / 3.0;
             Rect level_rect;
@@ -60,6 +72,10 @@ namespace RisenautEditor
                 level_rect = new Rect((ActualWidth - ww) / 2, 0, ww, ActualHeight);
             }
             drawingContext.DrawImage(rendered_level, level_rect);
+
+            // Draw only the level if in preview mode.
+            if (IsPreview)
+                return;
 
             double tile_width = level_rect.Width / Level.Width;
             double tile_height = level_rect.Height / Level.Height;
@@ -115,7 +131,7 @@ namespace RisenautEditor
                     int b = Level.GetTile(x, y);
                     if (b >= 0 && b < Blocks.Count)
                     {
-                        Blocks.ElementAt(b).Draw(canvas, x * block_width, y * block_height);
+                        Blocks[b].Draw(canvas, x * block_width, y * block_height);
                     }
                 }
             }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace RisenautEditor
 {
-    class Level
+    public class Level
     {
         private byte[] game_data;
         private int level_offset;
@@ -15,14 +15,16 @@ namespace RisenautEditor
         /// <summary>
         /// For use by LevelCollection.
         /// </summary>
-        internal Level(byte[] game_data, int level_offset)
+        internal Level(byte[] game_data, int level_offset, int level_id)
         {
             this.game_data = game_data;
             this.level_offset = level_offset;
+            LevelId = level_id;
         }
 
         public int Width { get { return 16; } }
         public int Height { get { return 16; } }
+        public int LevelId { get; private set; }
 
         /// <summary>
         /// Gets tile code at the specified coordinates.

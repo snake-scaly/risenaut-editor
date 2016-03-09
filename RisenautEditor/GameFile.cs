@@ -36,7 +36,7 @@ namespace RisenautEditor
             var levels = new Level[number_of_levels];
             for (int i = 0; i < number_of_levels; i++)
             {
-                levels[i] = new Level(game_data, levels_offset + level_size * i);
+                levels[i] = new Level(game_data, levels_offset + level_size * i, i + 1);
             }
             Levels = Array.AsReadOnly(levels);
 
@@ -48,7 +48,7 @@ namespace RisenautEditor
             Blocks = Array.AsReadOnly(blocks);
         }
 
-        public IReadOnlyCollection<Level> Levels { get; private set; }
-        public IReadOnlyCollection<Sprite> Blocks { get; private set; }
+        public IReadOnlyList<Level> Levels { get; private set; }
+        public IReadOnlyList<Sprite> Blocks { get; private set; }
     }
 }
