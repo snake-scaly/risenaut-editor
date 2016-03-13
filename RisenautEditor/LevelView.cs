@@ -22,7 +22,7 @@ namespace RisenautEditor
             DependencyProperty.Register("Level", typeof(Level), typeof(LevelView),
             new FrameworkPropertyMetadata(OnLevelOrBlocksPropertyChanged));
         public static readonly DependencyProperty BlocksProperty =
-            DependencyProperty.Register("Blocks", typeof(IReadOnlyList<Sprite>), typeof(LevelView),
+            DependencyProperty.Register("Blocks", typeof(IList<Sprite>), typeof(LevelView),
             new FrameworkPropertyMetadata(OnLevelOrBlocksPropertyChanged));
 
         public Level Level
@@ -31,9 +31,9 @@ namespace RisenautEditor
             set { SetValue(LevelProperty, value); }
         }
 
-        public IReadOnlyList<Sprite> Blocks
+        public IList<Sprite> Blocks
         {
-            get { return (IReadOnlyList<Sprite>)GetValue(BlocksProperty); }
+            get { return (IList<Sprite>)GetValue(BlocksProperty); }
             set { SetValue(BlocksProperty, value); }
         }
 

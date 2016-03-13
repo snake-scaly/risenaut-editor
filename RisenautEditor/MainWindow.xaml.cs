@@ -30,7 +30,7 @@ namespace RisenautEditor
             title_base = Title;
         }
 
-        public IReadOnlyList<Sprite> Blocks { get; set; }
+        public IList<Sprite> Blocks { get; set; }
 
         private void level_list_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

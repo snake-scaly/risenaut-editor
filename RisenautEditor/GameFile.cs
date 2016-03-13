@@ -51,7 +51,7 @@ namespace RisenautEditor
             Blocks = Array.AsReadOnly(blocks);
         }
 
-        public IReadOnlyList<Level> Levels { get; private set; }
-        public IReadOnlyList<Sprite> Blocks { get; private set; }
+        public IList<Level> Levels { get; private set; }
+        public IList<Sprite> Blocks { get; private set; }
     }
 }
