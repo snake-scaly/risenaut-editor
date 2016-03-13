@@ -15,13 +15,13 @@ namespace RisenautEditor
         private byte[] game_data;
 
         private const int type_b_header_size = 0x2C;
-        private const int load_addr_offset = 0x26;
+        private const int load_addr_offset = 0x28;
 
-        private const int levels_addr = 0x9500;
+        private const int levels_addr = 0x3900;
         private const int number_of_levels = 25;
         private const int level_size = 16 * 16;
 
-        private const int blocks_addr = 0xAFB5;
+        private const int blocks_addr = 0x53B5;
         private const int number_of_blocks = 8;
         private const int block_size = 4 * 8;
 
