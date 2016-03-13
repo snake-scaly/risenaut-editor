@@ -34,7 +34,10 @@ namespace RisenautEditor
 
         private void level_list_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            level_view.Level = (Level)e.AddedItems[0];
+            if (e.AddedItems.Count != 0)
+            {
+                level_view.Level = (Level)e.AddedItems[0];
+            }
         }
 
         private void MenuItemOpen_Click(object sender, RoutedEventArgs e)
@@ -68,6 +71,7 @@ namespace RisenautEditor
             Title = Path.GetFileName(file_name) + " - " + title_base;
 
             Blocks = game.Blocks;
+            level_list.Items.Clear();
             foreach (var l in game.Levels)
             {
                 level_list.Items.Add(l);
