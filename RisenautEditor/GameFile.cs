@@ -33,6 +33,9 @@ namespace RisenautEditor
             int levels_offset = levels_addr - load_addr + type_b_header_size;
             int blocks_offset = blocks_addr - load_addr + type_b_header_size;
 
+            if (game_data.Length < blocks_offset + block_size * number_of_blocks)
+                throw new Exception("File is truncated.");
+
             var levels = new Level[number_of_levels];
             for (int i = 0; i < number_of_levels; i++)
             {
