@@ -27,6 +27,8 @@ namespace RisenautEditor
 
         public GameFile(string path)
         {
+            FileName = path;
+
             game_data = File.ReadAllBytes(path);
 
             int load_addr = game_data[load_addr_offset] + game_data[load_addr_offset + 1] * 256;
@@ -51,6 +53,7 @@ namespace RisenautEditor
             Blocks = Array.AsReadOnly(blocks);
         }
 
+        public string FileName { get; private set; }
         public IList<Level> Levels { get; private set; }
         public IList<Sprite> Blocks { get; private set; }
     }

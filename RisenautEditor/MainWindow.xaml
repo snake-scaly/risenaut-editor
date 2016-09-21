@@ -1,27 +1,29 @@
 ﻿<Window x:Class="RisenautEditor.MainWindow"
-        x:Name="main_window"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:re="clr-namespace:RisenautEditor"
-        Title="Risenaut Editor" Height="350" Width="525">
+        DataContext="{Binding Path=Main, Source={StaticResource Locator}}"
+        Title="{Binding Title}" Height="350" Width="525">
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
-                <MenuItem Header="_Open" Click="MenuItemOpen_Click" />
+                <MenuItem Header="_Open" Command="{Binding OpenFileCommand}" />
             </MenuItem>
         </Menu>
-        <ListBox Name="level_list" DockPanel.Dock="Left" Width="120" Background="Black" SelectionChanged="level_list_SelectionChanged">
+        <ListBox DockPanel.Dock="Left" Width="120" Background="Black" ItemsSource="{Binding Levels}"
+                 SelectedIndex="{Binding SelectedLevelIndex}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Canvas Width="80" Height="80">
-                        <re:LevelView Level="{Binding}" Blocks="{Binding ElementName=main_window, Path=Blocks}" IsPreview="true"
-                                      Width="{Binding ActualWidth, RelativeSource={RelativeSource FindAncestor, AncestorType=Canvas}}"
-                                      Height="{Binding ActualHeight, RelativeSource={RelativeSource FindAncestor, AncestorType=Canvas}}" />
-                        <Label Content="{Binding Path=LevelId}" Background="White" Foreground="Black" Padding="4,0,4,0" />
+                        <re:LevelView Level="{Binding}" IsPreview="true"
+                                      Blocks="{Binding Path=DataContext.Blocks, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                      Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource AncestorType=Canvas}}"
+                                      Height="{Binding Path=ActualHeight, RelativeSource={RelativeSource AncestorType=Canvas}}" />
+                        <Label Content="{Binding LevelId}" Background="White" Foreground="Black" Padding="4,0,4,0" />
                     </Canvas>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <re:LevelView x:Name="level_view" />
+        <re:LevelView Level="{Binding SelectedLevel}" Blocks="{Binding Blocks}" />
     </DockPanel>
 </Window>
