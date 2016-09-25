@@ -25,6 +25,7 @@ namespace RisenautEditor.ViewModel
             OpenFileCommand = new RelayCommand(OpenFile);
             SaveFileCommand = new RelayCommand(SaveFile, () => GameFile != null && GameFile.IsModified);
             SaveFileAsCommand = new RelayCommand(SaveFileAs, () => GameFile != null);
+            AboutCommand = new RelayCommand(About);
         }
 
         private GameFile GameFile
@@ -108,6 +109,13 @@ namespace RisenautEditor.ViewModel
         private void SaveFileAs()
         {
             file_service.SaveGameAs(GameFile);
+        }
+
+        public RelayCommand AboutCommand { get; private set; }
+
+        private void About()
+        {
+            new AboutBox().ShowDialog();
         }
 
         public string Title

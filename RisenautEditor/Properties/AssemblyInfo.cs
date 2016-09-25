@@ -7,12 +7,12 @@ using System.Windows;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("RisenautEditor")]
+[assembly: AssemblyTitle("Risenaut Editor")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("RisenautEditor")]
-[assembly: AssemblyCopyright("Copyright ©  2016")]
+[assembly: AssemblyProduct("Risenaut Editor")]
+[assembly: AssemblyCopyright("© 2016 Sergey \"SnakE\" Gromov")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
