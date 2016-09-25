@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight.Ioc;
+using RisenautEditor.ViewModel;
 using System.Windows;
 
 namespace RisenautEditor
@@ -12,6 +13,12 @@ namespace RisenautEditor
         {
             SimpleIoc.Default.Register<IFileService>(() => new FileService(this));
             InitializeComponent();
+            Closing += ((MainViewModel)DataContext).OnClosing;
+        }
+
+        private void MenuItem_ExitClick(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }

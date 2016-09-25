@@ -2,12 +2,33 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:re="clr-namespace:RisenautEditor"
+        xmlns:vm="clr-namespace:RisenautEditor.ViewModel"
         DataContext="{Binding Path=Main, Source={StaticResource Locator}}"
         Title="{Binding Title}" Height="350" Width="525">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+        <vm:SetFocusCommand x:Key="SetFocusCommand" />
+    </Window.Resources>
+    <Window.InputBindings>
+        <KeyBinding Gesture="CTRL+Z" Command="{Binding Path=UndoCommand, ElementName=level_view}" />
+        <KeyBinding Gesture="CTRL+SHIFT+Z" Command="{Binding Path=RedoCommand, ElementName=level_view}" />
+        <KeyBinding Key="Escape" Command="{Binding Source={StaticResource SetFocusCommand}}" CommandParameter="{Binding ElementName=level_view}" />
+        <KeyBinding Gesture="CTRL+O" Command="{Binding OpenFileCommand}" />
+        <KeyBinding Gesture="CTRL+S" Command="{Binding SaveFileCommand}" />
+        <KeyBinding Gesture="CTRL+SHIFT+S" Command="{Binding SaveFileAsCommand}" />
+    </Window.InputBindings>
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
-                <MenuItem Header="_Open" Command="{Binding OpenFileCommand}" />
+                <MenuItem Header="_Open" Command="{Binding OpenFileCommand}" InputGestureText="Ctrl+O"/>
+                <MenuItem Header="_Save" Command="{Binding SaveFileCommand}" InputGestureText="Ctrl+S"/>
+                <MenuItem Header="Save _As" Command="{Binding SaveFileAsCommand}" InputGestureText="Ctrl+Shift+S"/>
+                <Separator />
+                <MenuItem Header="E_xit" Click="MenuItem_ExitClick" InputGestureText="Alt+F4" />
+            </MenuItem>
+            <MenuItem Header="_Edit">
+                <MenuItem Header="_Undo" Command="{Binding Path=UndoCommand, ElementName=level_view}" InputGestureText="Ctrl+Z" />
+                <MenuItem Header="_Redo" Command="{Binding Path=RedoCommand, ElementName=level_view}" InputGestureText="Ctrl+Shift+Z" />
             </MenuItem>
         </Menu>
         <ListBox DockPanel.Dock="Left" Width="120" Background="Black" ItemsSource="{Binding Levels}"
@@ -19,11 +40,39 @@
                                       Blocks="{Binding Path=DataContext.Blocks, RelativeSource={RelativeSource AncestorType=ListBox}}"
                                       Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource AncestorType=Canvas}}"
                                       Height="{Binding Path=ActualHeight, RelativeSource={RelativeSource AncestorType=Canvas}}" />
-                        <Label Content="{Binding LevelId}" Background="White" Foreground="Black" Padding="4,0,4,0" />
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding LevelId}" Foreground="White" FontSize="20" FontWeight="Black">
+                                <TextBlock.Effect>
+                                    <DropShadowEffect BlurRadius="2" Color="Black" ShadowDepth="2" />
+                                </TextBlock.Effect>
+                            </TextBlock>
+                            <TextBlock Text="*" Visibility="{Binding Path=IsModified, Converter={StaticResource BoolToVis}}" Foreground="White" FontSize="20" FontWeight="Black">
+                                <TextBlock.Effect>
+                                    <DropShadowEffect BlurRadius="2" Color="Black" ShadowDepth="2" />
+                                </TextBlock.Effect>
+                            </TextBlock>
+                        </StackPanel>
                     </Canvas>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <re:LevelView Level="{Binding SelectedLevel}" Blocks="{Binding Blocks}" />
+        <DockPanel DockPanel.Dock="Right">
+            <StackPanel DockPanel.Dock="Top">
+                <Label Target="{Binding ElementName=tile_text_box}">Paint with _tile</Label>
+                <TextBox Name="tile_text_box" Text="{Binding Path=TileBrush, ElementName=level_view, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}">
+                    <TextBox.InputBindings>
+                        <KeyBinding Key="Enter" Command="{Binding Source={StaticResource SetFocusCommand}}" CommandParameter="{Binding ElementName=level_view}" />
+                    </TextBox.InputBindings>
+                </TextBox>
+            </StackPanel>
+            <ListBox Width="80" Background="Black" ItemsSource="{Binding Blocks}" SelectedIndex="{Binding Path=TileBrush, ElementName=level_view}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <re:SpriteView Width="40" Height="40" Sprite="{Binding}" />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </DockPanel>
+        <re:LevelView x:Name="level_view" Level="{Binding SelectedLevel}" Blocks="{Binding Blocks}" />
     </DockPanel>
 </Window>

@@ -71,7 +71,14 @@
     </ApplicationDefinition>
     <Compile Include="FileService.cs" />
     <Compile Include="IFileService.cs" />
+    <Compile Include="IManipulator.cs" />
+    <Compile Include="IUndoAction.cs" />
+    <Compile Include="SpriteView.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="Manipulator.cs" />
+    <Compile Include="ByteUndoAction.cs" />
+    <Compile Include="UndoManager.cs" />
+    <Compile Include="ViewModel\SetFocusCommand.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

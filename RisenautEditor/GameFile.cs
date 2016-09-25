@@ -1,5 +1,7 @@
-﻿using System;
+﻿using GalaSoft.MvvmLight;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -10,9 +12,10 @@ namespace RisenautEditor
     /// <summary>
     /// Represents a game file of type FIL.
     /// </summary>
-    class GameFile
+    class GameFile : ObservableObject
     {
         private byte[] game_data;
+        private string file_name;
 
         private const int type_b_header_size = 0x2C;
         private const int load_addr_offset = 0x28;
@@ -42,6 +45,7 @@ namespace RisenautEditor
             for (int i = 0; i < number_of_levels; i++)
             {
                 levels[i] = new Level(game_data, levels_offset + level_size * i, i + 1);
+                levels[i].PropertyChanged += OnLevelPropertyChanged;
             }
             Levels = Array.AsReadOnly(levels);
 
@@ -53,8 +57,46 @@ namespace RisenautEditor
             Blocks = Array.AsReadOnly(blocks);
         }
 
-        public string FileName { get; private set; }
+        public void Save(string path)
+        {
+            File.WriteAllBytes(path, game_data);
+            FileName = path;
+            foreach (Level level in Levels)
+            {
+                level.SetUnchanged();
+            }
+        }
+
+        private void OnLevelPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if ("IsModified".Equals(e.PropertyName))
+            {
+                RaisePropertyChanged(() => IsModified);
+            }
+        }
+
+        public string FileName
+        {
+            get { return file_name; }
+            set { Set(() => FileName, ref file_name, value); }
+        }
+
         public IList<Level> Levels { get; private set; }
         public IList<Sprite> Blocks { get; private set; }
+
+        public bool IsModified
+        {
+            get
+            {
+                foreach (var l in Levels)
+                {
+                    if (l.IsModified)
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
     }
 }
