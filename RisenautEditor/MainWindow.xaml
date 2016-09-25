@@ -60,13 +60,13 @@
         <DockPanel DockPanel.Dock="Right">
             <StackPanel DockPanel.Dock="Top">
                 <Label Target="{Binding ElementName=tile_text_box}">Paint with _tile</Label>
-                <TextBox Name="tile_text_box" Text="{Binding Path=TileBrush, ElementName=level_view, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}">
+                <TextBox Name="tile_text_box" Text="{Binding Path=TileBrush, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}">
                     <TextBox.InputBindings>
                         <KeyBinding Key="Enter" Command="{Binding Source={StaticResource SetFocusCommand}}" CommandParameter="{Binding ElementName=level_view}" />
                     </TextBox.InputBindings>
                 </TextBox>
             </StackPanel>
-            <ListBox Width="80" Background="Black" ItemsSource="{Binding Blocks}" SelectedIndex="{Binding Path=TileBrush, ElementName=level_view}">
+            <ListBox Width="80" Background="Black" ItemsSource="{Binding Blocks}" SelectedIndex="{Binding SelectedTileIndex}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <re:SpriteView Width="40" Height="40" Sprite="{Binding}" />
@@ -74,6 +74,6 @@
                 </ListBox.ItemTemplate>
             </ListBox>
         </DockPanel>
-        <re:LevelView x:Name="level_view" Level="{Binding SelectedLevel}" Blocks="{Binding Blocks}" />
+        <re:LevelView x:Name="level_view" Level="{Binding SelectedLevel}" Blocks="{Binding Blocks}" TileBrush="{Binding TileBrush}" />
     </DockPanel>
 </Window>
