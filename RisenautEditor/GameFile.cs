@@ -25,8 +25,11 @@ namespace RisenautEditor
         private const int level_size = 16 * 16;
 
         private const int blocks_addr = 0x53B5;
-        private const int number_of_blocks = 8;
+        private const int number_of_blocks = 7;
         private const int block_size = 4 * 8;
+
+        private const int monster_addr = 0x5983;
+        private const int monster_code = 9;
 
         public GameFile(string path)
         {
@@ -37,6 +40,7 @@ namespace RisenautEditor
             int load_addr = game_data[load_addr_offset] + game_data[load_addr_offset + 1] * 256;
             int levels_offset = levels_addr - load_addr + type_b_header_size;
             int blocks_offset = blocks_addr - load_addr + type_b_header_size;
+            int monster_offset = monster_addr - load_addr + type_b_header_size;
 
             if (game_data.Length < blocks_offset + block_size * number_of_blocks)
                 throw new Exception("File is truncated.");
@@ -49,11 +53,12 @@ namespace RisenautEditor
             }
             Levels = Array.AsReadOnly(levels);
 
-            var blocks = new Sprite[number_of_blocks];
+            var blocks = new Sprite[number_of_blocks + 1];
             for (int i = 0; i < number_of_blocks; i++)
             {
-                blocks[i] = new Sprite(game_data, blocks_offset + block_size * i, 8, 8);
+                blocks[i] = new Sprite(game_data, blocks_offset + block_size * i, 8, 8, i);
             }
+            blocks[number_of_blocks] = new Sprite(game_data, monster_offset, 8, 8, monster_code);
             Blocks = Array.AsReadOnly(blocks);
         }
 

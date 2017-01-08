@@ -17,16 +17,18 @@ namespace RisenautEditor
         /// <summary>
         /// For use by GameFile.
         /// </summary>
-        internal Sprite(byte[] game_data, int sprite_offset, int width, int height)
+        internal Sprite(byte[] game_data, int sprite_offset, int width, int height, int index)
         {
             this.game_data = game_data;
             this.sprite_offset = sprite_offset;
             PixelWidth = width;
             PixelHeight = height;
+            Index = index;
         }
 
         public int PixelWidth { get; private set; }
         public int PixelHeight { get; private set; }
+        public int Index { get; private set; }
 
         internal void Draw(ICanvas canvas, int x, int y)
         {

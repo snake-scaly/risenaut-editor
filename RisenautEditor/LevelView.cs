@@ -33,6 +33,7 @@ namespace RisenautEditor
         private ImageSource rendered_level;
         private bool paint;
         private Tile? current_tile;
+        private readonly Dictionary<int, Sprite> block_map = new Dictionary<int, Sprite>();
 
         private const int block_width = 8;
         private const int block_height = 8;
@@ -110,7 +111,17 @@ namespace RisenautEditor
         private static void OnBlocksPropertyChanged(DependencyObject source, DependencyPropertyChangedEventArgs e)
         {
             var lv = (LevelView)source;
+            lv.ReindexBlocks();
             lv.Update();
+        }
+
+        private void ReindexBlocks()
+        {
+            block_map.Clear();
+            foreach (Sprite s in Blocks)
+            {
+                block_map[s.Index] = s;
+            }
         }
 
         private void Update()
@@ -138,7 +149,7 @@ namespace RisenautEditor
                 for (int x = 0; x < Level.Width; x++)
                 {
                     int b = Level.GetTile(x, y);
-                    if (b < 0 || b >= Blocks.Count)
+                    if (!block_map.ContainsKey(b))
                     {
                         Rect rect = GetTileRect(x, y);
                         const int unknown_tile_padding = 4;
@@ -225,7 +236,7 @@ namespace RisenautEditor
 
         private void RenderLevel()
         {
-            if (Level == null || Blocks == null)
+            if (Level == null)
                 return;
 
             //var canvas = new DrawingContextCanvas(drawingContext, ActualWidth, ActualHeight);
@@ -240,9 +251,10 @@ namespace RisenautEditor
                 for (int x = 0; x < Level.Width; x++)
                 {
                     int b = Level.GetTile(x, y);
-                    if (b >= 0 && b < Blocks.Count)
+                    Sprite sprite;
+                    if (block_map.TryGetValue(b, out sprite))
                     {
-                        Blocks[b].Draw(canvas, x * block_width, y * block_height);
+                        sprite.Draw(canvas, x * block_width, y * block_height);
                     }
                 }
             }

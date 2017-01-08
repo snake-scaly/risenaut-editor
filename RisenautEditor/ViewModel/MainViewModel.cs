@@ -138,11 +138,11 @@ namespace RisenautEditor.ViewModel
             }
         }
 
-        public IEnumerable<Sprite> Blocks
+        public IList<Sprite> Blocks
         {
             get
             {
-                return GameFile != null ? GameFile.Blocks : Enumerable.Empty<Sprite>();
+                return GameFile != null ? GameFile.Blocks : new Sprite[0];
             }
         }
 
@@ -196,7 +196,15 @@ namespace RisenautEditor.ViewModel
                 if (Set(() => TileBrush, ref tile_brush, value))
                 {
                     RaisePropertyChanged(() => TileBrushHex);
-                    SelectedTileIndex = value < Blocks.Count() ? value : -1;
+                    int index = -1;
+                    for (int i = 0; i < Blocks.Count; i++)
+                    {
+                        if (Blocks[i].Index == value)
+                        {
+                            index = i;
+                        }
+                    }
+                    SelectedTileIndex = index;
                 }
             }
         }
@@ -214,7 +222,7 @@ namespace RisenautEditor.ViewModel
             {
                 if (Set(() => SelectedTileIndex, ref selected_tile_index, value) && value >= 0 && value <= 255)
                 {
-                    TileBrush = value;
+                    TileBrush = Blocks[value].Index;
                 }
             }
         }
