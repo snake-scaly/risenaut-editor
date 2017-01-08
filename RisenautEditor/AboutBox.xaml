@@ -5,8 +5,8 @@
     <DockPanel>
         <Button DockPanel.Dock="Bottom" Width="100" Margin="16" IsDefault="True" IsCancel="True">Close</Button>
         <StackPanel Margin="16">
-            <TextBlock TextAlignment="Center" FontWeight="Bold" FontSize="16">Risenaut Editor 1.0</TextBlock>
-            <TextBlock TextAlignment="Center" Margin="0,16,0,0">© 2016 Sergey "SnakE" Gromov</TextBlock>
+            <TextBlock TextAlignment="Center" FontWeight="Bold" FontSize="16">Risenaut Editor 1.1</TextBlock>
+            <TextBlock TextAlignment="Center" Margin="0,16,0,0">© 2017 Sergey "SnakE" Gromov</TextBlock>
             <TextBlock TextAlignment="Center" Margin="0,16,0,0">Built for<LineBreak />
             <Hyperlink NavigateUri="http://www.agatcomp.ru" RequestNavigate="Hyperlink_RequestNavigate">www.agatcomp.ru</Hyperlink></TextBlock>
         </StackPanel>
