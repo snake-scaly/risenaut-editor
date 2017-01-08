@@ -60,11 +60,14 @@
         <DockPanel DockPanel.Dock="Right">
             <StackPanel DockPanel.Dock="Top">
                 <Label Target="{Binding ElementName=tile_text_box}">Paint with _tile</Label>
-                <TextBox Name="tile_text_box" Text="{Binding Path=TileBrush, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}">
-                    <TextBox.InputBindings>
-                        <KeyBinding Key="Enter" Command="{Binding Source={StaticResource SetFocusCommand}}" CommandParameter="{Binding ElementName=level_view}" />
-                    </TextBox.InputBindings>
-                </TextBox>
+                <DockPanel Margin="5 0 5 5">
+                    <Label DockPanel.Dock="Left" Target="{Binding ElementName=tile_text_box}" Padding="1">0x</Label>
+                    <TextBox Name="tile_text_box" Text="{Binding Path=TileBrushHex, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}">
+                        <TextBox.InputBindings>
+                            <KeyBinding Key="Enter" Command="{Binding Source={StaticResource SetFocusCommand}}" CommandParameter="{Binding ElementName=level_view}" />
+                        </TextBox.InputBindings>
+                    </TextBox>
+                </DockPanel>
             </StackPanel>
             <ListBox Width="80" Background="Black" ItemsSource="{Binding Blocks}" SelectedIndex="{Binding SelectedTileIndex}">
                 <ListBox.ItemTemplate>

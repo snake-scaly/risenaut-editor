@@ -195,9 +195,16 @@ namespace RisenautEditor.ViewModel
                 }
                 if (Set(() => TileBrush, ref tile_brush, value))
                 {
+                    RaisePropertyChanged(() => TileBrushHex);
                     SelectedTileIndex = value < Blocks.Count() ? value : -1;
                 }
             }
+        }
+
+        public string TileBrushHex
+        {
+            get { return string.Format("{0:X}", tile_brush); }
+            set { TileBrush = Convert.ToInt32(value, 16); }
         }
 
         public int SelectedTileIndex
