@@ -21,7 +21,7 @@ namespace RisenautEditor
         private const int load_addr_offset = 0x28;
 
         private const int levels_addr = 0x3900;
-        private const int number_of_levels = 25;
+        private const int number_of_levels = 16;
         private const int level_size = 16 * 16;
 
         private const int blocks_addr = 0x53B5;
