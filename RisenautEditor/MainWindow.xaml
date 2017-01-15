@@ -72,11 +72,12 @@
             <ListBox Width="80" Background="Black" ItemsSource="{Binding Blocks}" SelectedIndex="{Binding SelectedTileIndex}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <re:SpriteView Width="40" Height="40" Sprite="{Binding}" />
+                        <re:SpriteView Width="40" Height="30" Sprite="{Binding}" RenderOptions.BitmapScalingMode="NearestNeighbor" />
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
         </DockPanel>
-        <re:LevelView x:Name="level_view" Level="{Binding SelectedLevel}" Blocks="{Binding Blocks}" TileBrush="{Binding TileBrush}" />
+        <re:LevelView x:Name="level_view" Level="{Binding SelectedLevel}" Blocks="{Binding Blocks}"
+                      TileBrush="{Binding TileBrush}" RenderOptions.BitmapScalingMode="NearestNeighbor" />
     </DockPanel>
 </Window>
